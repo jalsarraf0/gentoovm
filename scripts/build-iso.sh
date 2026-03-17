@@ -25,7 +25,11 @@ echo "Squashfs size: $(du -sh "$STAGING/LiveOS/rootfs.squashfs" | cut -f1)" | te
 
 # ---- Copy kernel and initramfs ----
 echo "Copying boot files..." | tee -a "$LOG"
-KVER=$(ls "$BUILD_ROOT/lib/modules/" | sort -V | tail -1)
+KVER=$(ls "$BUILD_ROOT/lib/modules/" 2>/dev/null | sort -V | tail -1)
+if [ -z "$KVER" ]; then
+    echo "ERROR: No kernel modules found in $BUILD_ROOT/lib/modules/" | tee -a "$LOG"
+    exit 1
+fi
 echo "Kernel version: $KVER" | tee -a "$LOG"
 
 # Find kernel
