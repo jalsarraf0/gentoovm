@@ -2,6 +2,8 @@
 name: gentoovm CI
 on:
   push:
+    branches:
+      - main
     tags:
       - v*.*.*
       - v*
